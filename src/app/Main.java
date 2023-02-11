@@ -23,7 +23,7 @@ public class Main {
             Console.printStackTrace(e);
         }
        // Console.initLogger(activateLogFile);
-        Env.printConfig();
+     //   Env.printConfig();
         Console.println("####################################################################", Console.Colors.getGREEN());
         Console.println("####################################################################", Console.Colors.getGREEN());
         Console.printlnWithDate("starting Tracking Listener " + Env.app_version + "  ...");
