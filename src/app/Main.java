@@ -22,7 +22,7 @@ public class Main {
         } catch (Exception e) {
             Console.printStackTrace(e);
         }
-        Console.initLogger(activateLogFile);
+       // Console.initLogger(activateLogFile);
         Env.printConfig();
         Console.println("####################################################################", Console.Colors.getGREEN());
         Console.println("####################################################################", Console.Colors.getGREEN());
