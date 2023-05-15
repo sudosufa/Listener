@@ -9,7 +9,10 @@ import app.tools.avldata.AvlDataGH;
 import app.tools.trackingDebugger.TemperatureCorrespondence;
 import config.Env;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.util.Properties;
 
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 public class Main {
     public static void main(String[] args) {
         boolean activateLogFile = false;
@@ -22,11 +25,32 @@ public class Main {
         } catch (Exception e) {
             Console.printStackTrace(e);
         }
-       // Console.initLogger(activateLogFile);
-     //   Env.printConfig();
-      //  Console.println("####################################################################", Console.Colors.getGREEN());
-      //  Console.println("####################################################################", Console.Colors.getGREEN());
-      //  Console.printlnWithDate("starting Tracking Listener " + Env.app_version + "  ...");
+
+
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("acks", "all");
+        props.put("retries", 0);
+        props.put("batch.size", 16384);
+        props.put("linger.ms", 1);
+        props.put("buffer.memory", 33554432);
+        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+
+        KafkaProducer<String, String> producer = new KafkaProducer<>(props);
+
+
+        String topic = "myto";
+        String key = "my-key";
+        String value = "Data From listener !!!!!!!!!!!!!!!!";
+
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, value);
+        producer.send(record);
+        // Console.initLogger(activateLogFile);
+        //   Env.printConfig();
+        //  Console.println("####################################################################", Console.Colors.getGREEN());
+        //  Console.println("####################################################################", Console.Colors.getGREEN());
+        //  Console.printlnWithDate("starting Tracking Listener " + Env.app_version + "  ...");
         initDAO();
         ConnexionDB.start();
         registerCodecStoreInstances();
@@ -52,3 +76,4 @@ public class Main {
         CodecStore.register(AvlDataGH.getCodec());
     }
 }
+
